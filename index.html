@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Impact Calculator</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .calculator { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
-        .calculator input { width: 100%; padding: 10px; margin: 10px 0; }
-        .calculator label { font-weight: bold; }
-        .calculator button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .calculator { max-width: 600px; width: 100%; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .calculator h2 { margin-top: 0; }
+        .calculator label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .calculator input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .calculator button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
         .calculator button:hover { background-color: #45a049; }
+        .calculator .tooltip { position: relative; display: inline-block; cursor: pointer; }
+        .calculator .tooltip .tooltiptext { visibility: hidden; width: 200px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; }
+        .calculator .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        .error-message { color: red; font-size: 0.9em; display: none; margin-bottom: 10px; }
+        .result { text-align: center; margin-top: 20px; }
+        .result h3 { margin: 0; }
     </style>
 </head>
 <body>
@@ -18,50 +25,108 @@
 <div class="calculator">
     <h2>Business Impact Calculator</h2>
     <form id="impactCalculator">
-        <label for="sizeOpportunity">Size of the Opportunity (S):</label>
-        <input type="number" id="sizeOpportunity" name="sizeOpportunity" required>
+        <label for="sizeOpportunity">Size of the Opportunity (S):
+            <span class="tooltip">ℹ️
+                <span class="tooltiptext">Rate the size of the opportunity on a scale of 1 to 10.</span>
+            </span>
+        </label>
+        <input type="number" id="sizeOpportunity" name="sizeOpportunity" min="1" max="10" required>
+        <div class="error-message" id="sizeOpportunityError">Please enter a value between 1 and 10.</div>
 
-        <label for="potentialImpact">Potential Impact Size (P):</label>
-        <input type="number" id="potentialImpact" name="potentialImpact" required>
+        <label for="potentialImpact">Potential Impact Size (P):
+            <span class="tooltip">ℹ️
+                <span class="tooltiptext">Rate the potential impact size on a scale of 1 to 10.</span>
+            </span>
+        </label>
+        <input type="number" id="potentialImpact" name="potentialImpact" min="1" max="10" required>
+        <div class="error-message" id="potentialImpactError">Please enter a value between 1 and 10.</div>
 
-        <label for="difficultyExecution">Difficulty of Execution (D):</label>
-        <input type="number" id="difficultyExecution" name="difficultyExecution" required>
+        <label for="difficultyExecution">Difficulty of Execution (D):
+            <span class="tooltip">ℹ️
+                <span class="tooltiptext">Rate the difficulty of execution on a scale of 1 to 10.</span>
+            </span>
+        </label>
+        <input type="number" id="difficultyExecution" name="difficultyExecution" min="1" max="10" required>
+        <div class="error-message" id="difficultyExecutionError">Please enter a value between 1 and 10.</div>
 
-        <label for="challengeConstruction">Awkwardness and Challenge in Construction and Operation (C):</label>
-        <input type="number" id="challengeConstruction" name="challengeConstruction" required>
+        <label for="challengeConstruction">Awkwardness and Challenge in Construction and Operation (C):
+            <span class="tooltip">ℹ️
+                <span class="tooltiptext">Rate the awkwardness and challenge in construction and operation on a scale of 1 to 10.</span>
+            </span>
+        </label>
+        <input type="number" id="challengeConstruction" name="challengeConstruction" min="1" max="10" required>
+        <div class="error-message" id="challengeConstructionError">Please enter a value between 1 and 10.</div>
 
         <label for="weightSizeOpportunity">Weight for Size of the Opportunity (w_S):</label>
         <input type="number" step="0.1" id="weightSizeOpportunity" name="weightSizeOpportunity" required>
+        <div class="error-message" id="weightSizeOpportunityError">Please enter a numeric value.</div>
 
         <label for="weightPotentialImpact">Weight for Potential Impact Size (w_P):</label>
         <input type="number" step="0.1" id="weightPotentialImpact" name="weightPotentialImpact" required>
+        <div class="error-message" id="weightPotentialImpactError">Please enter a numeric value.</div>
 
         <label for="weightDifficultyExecution">Weight for Difficulty of Execution (w_D):</label>
         <input type="number" step="0.1" id="weightDifficultyExecution" name="weightDifficultyExecution" required>
+        <div class="error-message" id="weightDifficultyExecutionError">Please enter a numeric value.</div>
 
         <label for="weightChallengeConstruction">Weight for Challenge in Construction and Operation (w_C):</label>
         <input type="number" step="0.1" id="weightChallengeConstruction" name="weightChallengeConstruction" required>
+        <div class="error-message" id="weightChallengeConstructionError">Please enter a numeric value.</div>
 
         <button type="button" onclick="calculateImpact()">Calculate Impact</button>
     </form>
-    <h3>Impact Score: <span id="impactScore">-</span></h3>
+    <div class="result">
+        <h3>Impact Score: <span id="impactScore">-</span></h3>
+    </div>
 </div>
 
 <script>
+    function showError(inputId, errorId) {
+        document.getElementById(inputId).classList.add("error");
+        document.getElementById(errorId).style.display = "block";
+    }
+
+    function hideError(inputId, errorId) {
+        document.getElementById(inputId).classList.remove("error");
+        document.getElementById(errorId).style.display = "none";
+    }
+
+    function validateInput(inputId, errorId, min, max) {
+        const value = parseFloat(document.getElementById(inputId).value);
+        if (isNaN(value) || value < min || value > max) {
+            showError(inputId, errorId);
+            return false;
+        } else {
+            hideError(inputId, errorId);
+            return true;
+        }
+    }
+
     function calculateImpact() {
-        const S = parseFloat(document.getElementById('sizeOpportunity').value);
-        const P = parseFloat(document.getElementById('potentialImpact').value);
-        const D = parseFloat(document.getElementById('difficultyExecution').value);
-        const C = parseFloat(document.getElementById('challengeConstruction').value);
+        const isValidS = validateInput("sizeOpportunity", "sizeOpportunityError", 1, 10);
+        const isValidP = validateInput("potentialImpact", "potentialImpactError", 1, 10);
+        const isValidD = validateInput("difficultyExecution", "difficultyExecutionError", 1, 10);
+        const isValidC = validateInput("challengeConstruction", "challengeConstructionError", 1, 10);
+        const isValidWS = validateInput("weightSizeOpportunity", "weightSizeOpportunityError", 0.1, 10);
+        const isValidWP = validateInput("weightPotentialImpact", "weightPotentialImpactError", 0.1, 10);
+        const isValidWD = validateInput("weightDifficultyExecution", "weightDifficultyExecutionError", 0.1, 10);
+        const isValidWC = validateInput("weightChallengeConstruction", "weightChallengeConstructionError", 0.1, 10);
 
-        const w_S = parseFloat(document.getElementById('weightSizeOpportunity').value);
-        const w_P = parseFloat(document.getElementById('weightPotentialImpact').value);
-        const w_D = parseFloat(document.getElementById('weightDifficultyExecution').value);
-        const w_C = parseFloat(document.getElementById('weightChallengeConstruction').value);
+        if (isValidS && isValidP && isValidD && isValidC && isValidWS && isValidWP && isValidWD && isValidWC) {
+            const S = parseFloat(document.getElementById('sizeOpportunity').value);
+            const P = parseFloat(document.getElementById('potentialImpact').value);
+            const D = parseFloat(document.getElementById('difficultyExecution').value);
+            const C = parseFloat(document.getElementById('challengeConstruction').value);
 
-        const impact = (w_S * S) + (w_P * P) - (w_D * D + w_C * C);
+            const w_S = parseFloat(document.getElementById('weightSizeOpportunity').value);
+            const w_P = parseFloat(document.getElementById('weightPotentialImpact').value);
+            const w_D = parseFloat(document.getElementById('weightDifficultyExecution').value);
+            const w_C = parseFloat(document.getElementById('weightChallengeConstruction').value);
 
-        document.getElementById('impactScore').innerText = impact.toFixed(2);
+            const impact = (w_S * S) + (w_P * P) - (w_D * D + w_C * C);
+
+            document.getElementById('impactScore').innerText = impact.toFixed(2);
+        }
     }
 </script>
 
