@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Impact Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .calculator { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        .calculator input { width: 100%; padding: 10px; margin: 10px 0; }
+        .calculator label { font-weight: bold; }
+        .calculator button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .calculator button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>Business Impact Calculator</h2>
+    <form id="impactCalculator">
+        <label for="sizeOpportunity">Size of the Opportunity (S):</label>
+        <input type="number" id="sizeOpportunity" name="sizeOpportunity" required>
+
+        <label for="potentialImpact">Potential Impact Size (P):</label>
+        <input type="number" id="potentialImpact" name="potentialImpact" required>
+
+        <label for="difficultyExecution">Difficulty of Execution (D):</label>
+        <input type="number" id="difficultyExecution" name="difficultyExecution" required>
+
+        <label for="challengeConstruction">Awkwardness and Challenge in Construction and Operation (C):</label>
+        <input type="number" id="challengeConstruction" name="challengeConstruction" required>
+
+        <label for="weightSizeOpportunity">Weight for Size of the Opportunity (w_S):</label>
+        <input type="number" step="0.1" id="weightSizeOpportunity" name="weightSizeOpportunity" required>
+
+        <label for="weightPotentialImpact">Weight for Potential Impact Size (w_P):</label>
+        <input type="number" step="0.1" id="weightPotentialImpact" name="weightPotentialImpact" required>
+
+        <label for="weightDifficultyExecution">Weight for Difficulty of Execution (w_D):</label>
+        <input type="number" step="0.1" id="weightDifficultyExecution" name="weightDifficultyExecution" required>
+
+        <label for="weightChallengeConstruction">Weight for Challenge in Construction and Operation (w_C):</label>
+        <input type="number" step="0.1" id="weightChallengeConstruction" name="weightChallengeConstruction" required>
+
+        <button type="button" onclick="calculateImpact()">Calculate Impact</button>
+    </form>
+    <h3>Impact Score: <span id="impactScore">-</span></h3>
+</div>
+
+<script>
+    function calculateImpact() {
+        const S = parseFloat(document.getElementById('sizeOpportunity').value);
+        const P = parseFloat(document.getElementById('potentialImpact').value);
+        const D = parseFloat(document.getElementById('difficultyExecution').value);
+        const C = parseFloat(document.getElementById('challengeConstruction').value);
+
+        const w_S = parseFloat(document.getElementById('weightSizeOpportunity').value);
+        const w_P = parseFloat(document.getElementById('weightPotentialImpact').value);
+        const w_D = parseFloat(document.getElementById('weightDifficultyExecution').value);
+        const w_C = parseFloat(document.getElementById('weightChallengeConstruction').value);
+
+        const impact = (w_S * S) + (w_P * P) - (w_D * D + w_C * C);
+
+        document.getElementById('impactScore').innerText = impact.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
