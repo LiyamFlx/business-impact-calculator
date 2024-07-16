@@ -1,5 +1,5 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -13,15 +13,15 @@ body {
     max-width: 600px;
     width: 100%;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
 }
 
 .form-container:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .form-step {
@@ -41,18 +41,24 @@ h2 {
     margin-bottom: 20px;
 }
 
+p {
+    font-size: 18px;
+    color: #555;
+}
+
 .options {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .options button {
-    padding: 10px;
+    padding: 15px;
     margin: 5px 0;
     background-color: #0073e6;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease-in-out;
@@ -62,10 +68,46 @@ h2 {
     background-color: #005bb5;
 }
 
+.primary-button {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+.primary-button:hover {
+    background-color: #005bb5;
+}
+
 .back-button {
-    background-color: #555;
+    background-color: #888;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 10px;
 }
 
 .back-button:hover {
-    background-color: #333;
+    background-color: #555;
+}
+
+#summary p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #444;
+}
+
+#results h3 {
+    font-size: 22px;
+    color: #0073e6;
+    margin-top: 20px;
 }
